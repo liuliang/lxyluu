@@ -1,11 +1,33 @@
-<h1>New blog</h1>
-
-<% form_for(@blog) do |f| %>
-  <%= f.error_messages %>
-  <%= fckeditor_textarea("blog", "content", { :toolbarKit => 'Simple', :width => '50%', :height => '200px',:toolbarSet=> 'Blog' }) %>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', blogs_path %>
+<% content_for :main do -%>
+  <% form_for(@blog) do |f| %>
+    <div class="directory border">
+      <ol>
+        <li><%= f.text_field :title %></li>
+      </ol>
+    </div>
+    <div class="gems border">
+      <%= fckeditor_textarea("blog", "content", { :toolbarKit => 'Simple', :width => '100%', :height => '500px',:toolbarSet=> 'Blog' }) %>
+      <div class="meta-a">
+        <div class="line">
+          <span>
+            <strong>权限</strong>
+            <%= '私有' %><%= f.check_box :is_private%>
+          </span>
+        </div>
+        <div class="line">
+          <span>
+            <strong>分类</strong> <%= f.select :blog_category_id,BlogCategory.all.collect{|bc| [bc.name,bc.name]} %>
+          </span>
+        </div>
+        <div class="line">
+          <span>
+            <strong>标签</strong> <%= f.text_field :tags %>
+          </span>
+        </div>
+      </div>
+    </div>
+    <p>
+      <%= f.submit 'Create' %>
+    </p>
+  <% end %>
+<% end -%>

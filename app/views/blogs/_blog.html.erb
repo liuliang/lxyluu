@@ -1,0 +1,46 @@
+<div class="title">
+  <h2><%= link_to @blog.title,@blog %></h2>
+  <h3><%= @blog.user.name %></h3>
+</div>
+<div id="markup">
+  <p>
+    <%= @blog.content %>
+  </p>
+</div>
+<div class="border">
+  <div class="meta">
+    <div class="admin">
+      <h5>其他文章</h5>
+    </div>
+    <div class="who">
+        <% @blog.others.each do |b| -%>
+        <p><%= link_to b.title,b %></p>
+        <% end -%>
+    </div>
+
+    <div class="links">
+      <h5>Links</h5>
+      <a rel="nofollow" href="http://JoergWMittag.GitHub.Com/b001e/">Homepage</a>
+      <a rel="nofollow" href="https://GitHub.Com/JoergWMittag/B001e/">Source Code</a>
+      <a rel="nofollow" href="http://RDoc.Info/projects/JoergWMittag/B001e/">Documentation</a>
+      <a rel="nofollow" href="https://Wiki.GitHub.Com/JoergWMittag/B001e/">Wiki</a>
+
+      <a rel="nofollow" href="https://GitHub.Com/JoergWMittag/B001e/issues/">Bug Tracker</a>
+    </div>
+
+    <div class="versions">
+      <h5>Versions</h5>
+      <ol>
+        <li>
+          <a href="http://rubygems.org/gems/b001e/versions/0.0.1">0.0.1</a>
+          <small>December 31, 2009</small>
+        </li>
+        <li>
+          <a href="http://rubygems.org/gems/b001e/versions/0.0.0a">0.0.0a</a>
+          <small>November 17, 2009</small>
+        </li>
+
+      </ol>
+    </div>
+  </div>
+</div>

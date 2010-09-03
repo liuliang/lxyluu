@@ -1,8 +1,10 @@
 class BlogsController < ApplicationController
+
+  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
   # GET /blogs
   # GET /blogs.xml
   def index
-    @blogs = Blog.all
+    @blogs = Blog.public.paginate :page => params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,7 +43,8 @@ class BlogsController < ApplicationController
   # POST /blogs.xml
   def create
     @blog = Blog.new(params[:blog])
-
+    @blog.user_id = current_user.id
+    
     respond_to do |format|
       if @blog.save
         flash[:notice] = 'Blog was successfully created.'
@@ -58,7 +61,8 @@ class BlogsController < ApplicationController
   # PUT /blogs/1.xml
   def update
     @blog = Blog.find(params[:id])
-
+    @blog.user_id = current_user.id
+    
     respond_to do |format|
       if @blog.update_attributes(params[:blog])
         flash[:notice] = 'Blog was successfully updated.'
@@ -82,4 +86,18 @@ class BlogsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def my
+    @blogs = current_user.blogs.available.paginate :page => params[:page]
+    
+  end
+
+  protected
+
+  def find_user
+    unless logged_in?
+      redirect_to blogs_path
+    end
+  end
+
 end

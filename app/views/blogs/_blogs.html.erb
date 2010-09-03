@@ -1,0 +1,27 @@
+<div class="directory border">
+  <ol>
+    <% BlogCategory.all.each do |ac| %>
+      <li><%= link_to ac.name,blogs_path %></li>
+    <% end %>
+  </ol>
+</div>
+<p class="entries">
+  <b><%= @blogs.total_entries %></b> in total
+</p>
+<div class="gems border">
+  <ol>
+    <% @blogs.each do |b| -%>
+      <li>
+        <div class="downloads">
+          <strong><%= b.created_at.to_s(:db) %></strong><br/>
+          <%= b.user.name %>
+        </div>
+        <a href="/blogs/<%= b.id %>">
+          <strong><%= b.title %></strong>
+          <%= b.content %>
+        </a>
+      </li>
+    <% end -%>
+  </ol>
+</div>
+<%= will_paginate @blogs %>
