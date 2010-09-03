@@ -2,7 +2,7 @@
 
 <% form_for(@blog) do |f| %>
   <%= f.error_messages %>
-
+  <%= fckeditor_textarea("blog", "content", { :toolbarKit => 'Simple', :width => '50%', :height => '200px',:toolbarSet=> 'Blog' }) %>
   <p>
     <%= f.submit 'Create' %>
   </p>
