@@ -6,7 +6,15 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>Blogs: <%= controller.action_name %></title>
     <%= stylesheet_link_tag 'default' %>
-    <%= javascript_include_tag :fckeditor %>
+    <%= stylesheet_link_tag 'SyntaxHighlighter' %>
+    <%= javascript_include_tag 'shCore','shBrushCSharp','shBrushRuby' %>
+    <%= include_tiny_mce_if_needed %>
+    <script type="text/javascript">
+      window.onload = function () {
+        dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
+        dp.SyntaxHighlighter.HighlightAll('code');
+      }
+    </script>
     <%= yield :header %>
   </head>
   <body>
@@ -17,15 +25,15 @@
       <div class="grid_6 suffix_1 nav">
         <div id="nav-cap">
           <div id="nav">
-              <ul id="signed_out">
-                <% if logged_in? %>
+            <ul id="signed_out">
+              <% if logged_in? %>
                 <li id="sign-in"><a href="/blogs/my">myself</a></li>
-                <% end %>
-                <li id="sign-up"><a href="/blogs">home</a></li>
-              </ul>
+              <% end %>
+              <li id="sign-up"><a href="/blogs">home</a></li>
+            </ul>
           </div>
         </div>
-   </div>
+      </div>
       <div class="prefix_1 grid_10 suffix_1 main">
         <div class="info clearfix">
           <%= yield :main %>

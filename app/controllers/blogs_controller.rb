@@ -1,6 +1,12 @@
 class BlogsController < ApplicationController
-
-  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
+  uses_tiny_mce(:options=>{
+    :theme => 'advanced',
+    :theme_advanced_toolbar_location => 'top',
+    :theme_advanced_buttons3_add=>'search,syntaxhl,rcode',
+    :verify_html => false
+    })
+  
+#  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
   # GET /blogs
   # GET /blogs.xml
   def index
@@ -29,7 +35,7 @@ class BlogsController < ApplicationController
     @blog = Blog.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html {render :layout=>true}# new.html.erb
       format.xml  { render :xml => @blog }
     end
   end
@@ -43,7 +49,8 @@ class BlogsController < ApplicationController
   # POST /blogs.xml
   def create
     @blog = Blog.new(params[:blog])
-    @blog.user_id = current_user.id
+    @blog.user_id = 1
+#    render :text=>params[:blog][:content]
     
     respond_to do |format|
       if @blog.save

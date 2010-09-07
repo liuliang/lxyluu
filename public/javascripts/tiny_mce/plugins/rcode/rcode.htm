@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>inster code</title>
+        <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+        <script type="text/javascript" src="js/insert_code.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/rcode.css"></link>
+    </head>
+    <body>
+        <div align="center">
+            <form onsubmit="insertCode();return false;" action="#">
+                <div class="tabs">
+                    <ul>
+                        <li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">inster code</a></span></li>
+                    </ul>
+                </div>
+
+                <div class="panel_wrapper">
+                    <div id="general_panel" class="panel current">
+
+                        <table border="0" cellpadding="4" cellspacing="0">
+                            <tbody><tr id="codeSelectRow">
+                                    <td width="30%"><label for="codeSelect">* type</label></td>
+                                    <td>
+                                        <select id="codeSelect" name="codeSelect">
+                                            <option value="java" selected="selected">Java</option>
+                                            <option value="ruby">Ruby</option>
+                                            <option value="js">JavaScript</option>
+                                            <option value="php">PHP</option>
+                                            <option value="xml">XML</option>
+                                            <option value="html">HTML</option>
+                                            <option value="python">Python</option>
+                                            <option value="c">C</option>
+                                            <option value="cpp">C++</option>
+                                            <option value="c#">C#</option>
+                                            <option value="sql">SQL</option>
+                                        </select>
+                                        &nbsp;nothing <input id="codeInput" name="codeInput" type="text">
+                                    </td>
+                                </tr>
+                                <tr id="codeSelectRow">
+                                    <td><label for="codeTextArea">* code</label></td>
+                                    <td>
+                                        <textarea id="codeTextArea" name="codeTextArea" style="width: 460px; height: 270px;"></textarea>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                    </div>
+                </div>
+
+                <div class="mceActionPanel">
+                    <div style="float: left;">
+                        <input id="insert" name="insert" value="inster" onclick="insertCode();" type="button">
+                    </div>
+
+                    <div style="float: right;">
+                        <input id="cancel" name="cancel" value="close" onclick="tinyMCEPopup.close();" type="button">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </body>
+</html>
