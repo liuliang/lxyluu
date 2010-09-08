@@ -1,5 +1,25 @@
 <% if true %>
-<% content_for :main do -%>
+    <% content_for :header do -%>
+    <script type="text/javascript">
+      function wfb(field_name, url, type, win){
+        tinyMCE.activeEditor.windowManager.open({
+          file : '/images/new',  //上传窗口的路径
+          title : 'upload image',
+          width : 420,
+          height : 200,
+          resizable : "no",
+          inline : "yes",
+          close_previous : "no"
+        }, {
+          window : win,  //告诉它是被谁弹出来的
+          input : field_name  //这个是指生成的图片地址要往哪里填
+        });
+        return false;
+      }
+    </script>
+  <% end %>
+  <% content_for :main do -%>
+
   <%= include_tiny_mce_if_needed %>
   <% form_for(@blog) do |f| %>
     <div class="directory border">
@@ -10,6 +30,7 @@
     <div class="gems border">
       <%= f.text_area :content, :class => "mceEditor" ,:style=>"width:100%"%>
       <div class="meta-a">
+
         <div class="line">
           <span>
             <strong>权限</strong>
@@ -35,18 +56,18 @@
 <% end -%>
 <% end %>
 <% if false %>
-  <%= stylesheet_link_tag 'SyntaxHighlighter' %>
-  <%= javascript_include_tag 'shCore','shBrushCSharp','shBrushRuby' %>
-  <%= include_tiny_mce_if_needed %>
-  <script type="text/javascript">
-    window.onload = function () {
-      dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
-      dp.SyntaxHighlighter.HighlightAll('code');
-    }
-  </script>
-  <pre name="code" class="ruby" cols="60" rows="10">
+<%= stylesheet_link_tag 'SyntaxHighlighter' %>
+<%= javascript_include_tag 'shCore','shBrushCSharp','shBrushRuby' %>
+<%= include_tiny_mce_if_needed %>
+<script type="text/javascript">
+  window.onload = function () {
+    dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
+    dp.SyntaxHighlighter.HighlightAll('code');
+  }
+</script>
+<pre name="code" class="ruby" cols="60" rows="10">
       def a
       puts '222'
       end
-  </pre>
+</pre>
 <% end %>

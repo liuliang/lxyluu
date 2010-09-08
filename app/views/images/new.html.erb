@@ -1,0 +1,10 @@
+<h1>New image</h1>
+<% @image = Image.new %>
+<% form_for(@image, :html => { :multipart => true }) do |f| %>
+  <%= f.error_messages %>
+  <%= f.text_field :title %><br/>
+  <%= f.file_field :avatar %>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>

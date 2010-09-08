@@ -9,10 +9,12 @@
         <script type="text/javascript" src="../../utils/editable_selects.js"></script>
         <script type="text/javascript" src="js/image.js"></script>
         <link href="css/advimage.css" rel="stylesheet" type="text/css" />
+        <!--
         <script type="text/javascript">
             function wfb(field_name, url, type, win){
+                win.document.forms[0].elements[field_name].value = 'lxyluu';
                 tinyMCE.activeEditor.windowManager.open({
-                    file : '/admin/uploadImg',  //上传窗口的路径
+                    file : '../upload_image',  //上传窗口的路径
                     title : 'upload image',
                     width : 420,
                     height : 200,
@@ -26,6 +28,7 @@
                 return false;
             }
         </script>
+        -->
     </head>
     <body id="advimage" style="display: none">
         <form onsubmit="ImageDialog.insert();return false;" action="#">
