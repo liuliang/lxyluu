@@ -2,8 +2,9 @@ class BlogsController < ApplicationController
   uses_tiny_mce(:options=>{
     :theme => 'advanced',
     :theme_advanced_toolbar_location => 'top',
-    :theme_advanced_buttons3_add=>'search,syntaxhl,rcode',
-    :verify_html => false
+    :theme_advanced_buttons3_add=>'search,syntaxhl,rcode,advimage',
+    :verify_html => false,
+    :file_browser_callback => 'wfb'
     })
   
 #  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
