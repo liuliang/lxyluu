@@ -7,6 +7,7 @@ class Blog < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :blog_category
+  has_many :comments
 
   named_scope :public,:conditions => ['flag = 0 and is_private = 0']
   named_scope :private,:conditions => ['flag = 0 and is_private = 1']

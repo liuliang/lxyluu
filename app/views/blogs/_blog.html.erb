@@ -1,46 +1,67 @@
-<div class="title">
-  <h2><%= link_to @blog.title,@blog %></h2>
-  <h3><%= @blog.user.name %></h3>
-</div>
-<div id="markup-a">
-  <p>
-    <%= @blog.content %>
-  </p>
-</div>
-<div class="border">
-  <div class="meta">
-    <div class="admin">
-      <h5>其他文章</h5>
-    </div>
-    <div class="who">
-        <% @blog.others.each do |b| -%>
-        <p><%= link_to b.title,b %></p>
-        <% end -%>
-    </div>
-
-    <div class="links">
-      <h5>Links</h5>
-      <a rel="nofollow" href="http://JoergWMittag.GitHub.Com/b001e/">Homepage</a>
-      <a rel="nofollow" href="https://GitHub.Com/JoergWMittag/B001e/">Source Code</a>
-      <a rel="nofollow" href="http://RDoc.Info/projects/JoergWMittag/B001e/">Documentation</a>
-      <a rel="nofollow" href="https://Wiki.GitHub.Com/JoergWMittag/B001e/">Wiki</a>
-
-      <a rel="nofollow" href="https://GitHub.Com/JoergWMittag/B001e/issues/">Bug Tracker</a>
-    </div>
-
-    <div class="versions">
-      <h5>Versions</h5>
-      <ol>
-        <li>
-          <a href="http://rubygems.org/gems/b001e/versions/0.0.1">0.0.1</a>
-          <small>December 31, 2009</small>
-        </li>
-        <li>
-          <a href="http://rubygems.org/gems/b001e/versions/0.0.0a">0.0.0a</a>
-          <small>November 17, 2009</small>
-        </li>
-
-      </ol>
+<% content_for :main do -%>
+  <div class="postnav">
+    <div class="alignleft"></div>
+    <div class="alignright">« <a href="http://www.emlog.net/demo/?post=47">EMLOG模板结构介绍</a>
     </div>
   </div>
-</div>
+  <div id="post-3" class="post">
+    <div class="posttitle">
+      <h2>
+        <% if @blog.weight > 0 %>
+          <img align="absmiddle" title="置顶日志" src="/images/import.gif" />
+        <% end %>
+        <%= @blog.title %>
+      </h2>
+      <p class="post-info">
+        post by <%= link_to blog.user.name,"/about" %> / <%= blog.created_at.to_s(:db) %> <%= week_en(blog.created_at.wday) %>
+      </p>
+    </div>
+
+    <div class="entry">
+      <p></p>
+      <%= @blog.content %>
+      <p class="postmetadata"></p>
+      <p class="postmetadata">标签:<%= link_to @blog.title,@blog %></p>
+    </div>
+    <p class="postmetadata"></p>
+  </div>
+  <p class="comment"><b>评论：</b><a name="comment"></a></p>
+  <% @blog.comments.each do |c| -%>
+    <ol class="commentlist">
+      <a name="319"></a>
+      <li class="alt">
+        <div class="cmtinfo"><em><%= @blog.created_at.to_s(:db) %></em>
+          <small class="commentmetadata">
+            <a target="_blank" href="<%= c.user_home.blank? ? '#' : c.user_home %>"><%= c.user_name %></a>：
+          </small>
+        </div>
+        <div class="comment">
+          <p><%= c.content %></p>
+          <div></div>
+        </div>
+      </li>
+    </ol>
+  <% end %>
+
+  <h3 id="respond">Leave a Reply</h3>
+  <% form_for @comment,:url=>"/blogs/#{@blog.id}/comments",:html=>{:id=>'commentform'} do |f|-%>
+    <p>
+      <%= f.text_field :user_name,:value=>nil,:tabindex=>1,:size=>22,:class=>"textbox" %>
+      <label for="comment_user_name"><small>Name (required)</small></label>
+    </p>
+    <p>
+      <%= f.text_field :user_email,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox" %>
+      <label for="comment_user_email"><small>Mail</small></label></p>
+    <p>
+      <%= f.text_field :user_home,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox" %>
+      <label for="comment_user_home"><small>Website</small></label>
+    </p>
+    <p>
+      <%= f.text_area :content,:value=>nil,:tabindex=>4,:rows=>10 %>
+    </p>
+    <p>
+      <%= f.submit 'Comment' %>
+    </p>
+  <% end -%>
+
+<% end -%>

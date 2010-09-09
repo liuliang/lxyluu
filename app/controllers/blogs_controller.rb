@@ -23,7 +23,8 @@ class BlogsController < ApplicationController
   # GET /blogs/1.xml
   def show
     @blog = Blog.find(params[:id])
-
+    @blog.update_attribute('view', @blog.view+1) unless @blog.blank?
+    @comment = Comment.new
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @blog }

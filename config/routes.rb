@@ -9,7 +9,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
-  map.resources :blogs,:collection => { :my => :get }
+  map.resources :blogs,:collection => { :my => :get } do |blog|
+    blog.resources :comments
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
 

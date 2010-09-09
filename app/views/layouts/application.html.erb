@@ -18,31 +18,12 @@
     <%= yield :header %>
   </head>
   <body>
-    <div class="container_12">
-      <div class="prefix_1 grid_4 header">
-        <h1><a title="Home" href="/">RubyGems.org</a></h1>
+    <div class="l_main">
+      <div class="header_left">
+        <h1><a title="Home" href="/">lxyluu</a></h1>
       </div>
-      <div class="grid_6 suffix_1 nav">
-        <div id="nav-cap">
-          <div id="nav">
-            <ul id="signed_out">
-              <% if logged_in? %>
-                <li id="sign-in"><a href="/blogs/my">myself</a></li>
-              <% end %>
-              <li id="sign-up"><a href="/blogs">home</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="prefix_1 grid_10 suffix_1 main">
-        <div class="info clearfix">
-          <%= yield :main %>
-        </div>
-      </div>
-      <div class="prefix_1 grid_10 suffix_1 footer">
-        <div class="links">
-          <a href="http://rubygems.org/pages/about">About</a>
-        </div>
+      <div class="content">
+        
       </div>
     </div>
   </body>
