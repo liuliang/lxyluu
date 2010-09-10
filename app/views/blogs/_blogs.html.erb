@@ -4,18 +4,22 @@
     <div class="post">
       <div class="posttitle">
         <h2>
-         <% if blog.weight > 0 %>
-           <img align="absmiddle" title="置顶日志" src="/images/import.gif" />
+          <% if blog.weight > 0 %>
+            <img align="absmiddle" title="置顶日志" src="/images/import.gif" />
           <% end %>
           <%= link_to blog.title,blog %>
         </h2>
-        <p class="post-info">post by <%= link_to 'lxyluu',"/about" %> / <%= blog.created_at.to_s(:db) %> <%= week_en(blog.created_at.wday) %> </p>
+        <p class="post-info">post by <%= link_to 'lxyluu',"/me" %> / <%= blog.created_at.to_s(:db) %> <%= week_en(blog.created_at.wday) %> </p>
       </div>
       <div class="entry">
         <p></p>
         <%= blog.content %>
         <p class="postmetadata"></p>
-        <p class="postmetadata">标签:<%= link_to blog.title,blog %></p>
+        <p class="postmetadata">标签:
+          <% blog.s_tags.each do |t| -%>
+            <%= link_to t,:action=>'search',:tag=>t %>
+          <% end -%>
+        </p>
       </div>
       <p class="postmetadata">
         <a href="/blogs/<%= blog.id %>#comment">Comment:<%= blog.comments.size %></a>
@@ -23,6 +27,7 @@
       </p>
     </div>
   <% end -%>
+  <%= will_paginate @blogs %>
 <% end -%>
 
 

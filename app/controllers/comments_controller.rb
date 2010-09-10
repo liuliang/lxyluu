@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
       if @comment.save
         flash[:notice] = 'Comment was successfully created.'
       else
-        flash[:error] = 'Comment was created fail.'
+        flash[:error] = '请检查数据的完整,以及是否包含关键字!'
       end
       format.html { redirect_to(@blog) }
     end

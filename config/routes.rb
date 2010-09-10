@@ -1,17 +1,21 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :images
-
+  
+  
+  map.me '/me', :controller=>'blogs',:action=>'show',:id=>17
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
+#  map.check_content '/check_content',:controller=> 'blogs', :action=>'check_content'
 #  map.register '/register', :controller => 'users', :action => 'create'
 #  map.signup '/signup', :controller => 'users', :action => 'new'
   map.resources :users
 
   map.resource :session
 
-  map.resources :blogs,:collection => { :my => :get } do |blog|
+  map.resources :blogs,:collection => { :my => :get,:search=>:any } do |blog|
     blog.resources :comments
   end
+
+  map.resources :images
 
   # The priority is based upon order of creation: first created -> highest priority.
 

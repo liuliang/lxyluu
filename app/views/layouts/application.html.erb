@@ -1,30 +1,125 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title>Blogs: <%= controller.action_name %></title>
-    <%= stylesheet_link_tag 'default' %>
-    <%= stylesheet_link_tag 'SyntaxHighlighter' %>
-    <%= javascript_include_tag 'shCore','shBrushCSharp','shBrushRuby' %>
-    <%= include_tiny_mce_if_needed %>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="lxyluu" />
+    <meta name="description" content="lxyluu" />
+    <meta name="generator" content="lxyluu" />
+    <title>lxyluu</title>
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.emlog.net/demo/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.emlog.net/demo/wlwmanifest.xml" />
+    <link rel="alternate" type="application/rss+xml" title="RSS"  href="http://www.emlog.net/demo/rss.php" />
+    <link href="/stylesheets/main.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="javascripts/jquery.js" ></script>
+    <script type="text/javascript" src="javascripts/jquery.validate.js" ></script>
+    <% if false %>
+      <%= stylesheet_link_tag 'SyntaxHighlighter' %>
+      <%= javascript_include_tag 'shCore','shBrushCSharp','shBrushRuby' %>
+      <%= include_tiny_mce_if_needed %>
+      <script type="text/javascript">
+        window.onload = function () {
+          dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
+          dp.SyntaxHighlighter.HighlightAll('code');
+        }
+      </script>
+    <% end %>
+    <%= yield :header %>
     <script type="text/javascript">
-      window.onload = function () {
-        dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
-        dp.SyntaxHighlighter.HighlightAll('code');
+      function validate_s(){
+        if(jQuery('#keyword').val() == ''){
+          alert('请输入关键字!');
+          return false
+        }
+        else
+        {
+          return true
+        }
       }
     </script>
-    <%= yield :header %>
+
   </head>
-  <body>
-    <div class="l_main">
-      <div class="header_left">
-        <h1><a title="Home" href="/">lxyluu</a></h1>
-      </div>
-      <div class="content">
-        
-      </div>
+  <body id="section-index">
+    <div id="navigation">
+      <ul>
+        <li ><a href="/">首页</a></li>
+        <li><a href="/me">me</a></li>
+        <!--current_page_item liang-->
+        <li class="search">
+          <% form_tag('/blogs/search',:onsubmit=>"return validate_s()")do -%>
+            <input name="keyword" id="keyword" type="text" value="" class="textbox"/>
+            <%= submit_tag 'Search',:id=>'searchsubmit' %>
+          <% end -%>
+        </li>
+      </ul>
     </div>
+    <div id="container">
+      <div id="header">
+        <h1><a href="/">lxyluu</a></h1>
+        <p id="desc">今天天气不错.....</p>
+      </div>
+      <div id="feedarea">
+        <dl>
+          <dd><a href="http://www.emlog.net/demo/rss.php">RSS</a></dd>
+        </dl>
+      </div>
+
+      <div id="headerimage">
+      </div><!-- end id:headerimage -->
+      <div id="content">
+        <div id="content-main">
+          <%= yield :main %>
+          <p align="center"></p>
+        </div><!-- end id:content-main -->
+
+        <div id="sidebar">
+          <ul>
+            <li class="sidebox">
+              <h3><span>分类</span></h3>
+              <ul id="record">
+                <% BlogCategory.all.each do |bc| -%>
+                  <li><%= link_to bc.name,:action=>'search',:bc=>bc.id %></li>
+                <% end -%>
+              </ul>
+            </li>
+            <li class="sidebox">
+              <h3><span>存档</span></h3>
+              <ul id="record">
+                <% Blog.count_months.each do |k,v| -%>
+                  <li><%= link_to "#{k}(#{v})",:action=>'search',:date=>k %></li>
+                <% end %>
+              </ul>
+            </li>
+
+            <li class="sidebox">
+              <h3><span>标签</span></h3>
+              <ul id="record">
+                <% Tag.all.each do |tag| -%>
+                  <%= link_to tag.name,:action=>'search',:tag=>tag.name %>
+                <% end %>
+              </ul>
+            </li>
+
+            <li class="sidebox">
+              <h3><span>最新评论</span></h3>
+              <ul id="newcomment">
+                <% Comment.new_comments.each do |comment| -%>
+                  <li><%= h comment.user_name %><br /><%= link_to comment.content,blog_path(comment.blog) %></li>
+                <% end -%>
+              </ul>
+            </li>
+            <li class="sidebox">
+              <h3><span>链接</span></h3>
+              <ul id="link">
+                <li><a href="http://www.emlog.net" title="emlog官方主页" target="_blank">emlog</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- end id:sidebar -->
+      </div><!-- end id:content -->
+    </div><!-- end id:container --> <div id="footer">
+
+      <br class="clear" />
+    </div><!-- end id:footer -->
+
   </body>
 </html>

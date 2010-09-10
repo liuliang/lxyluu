@@ -1,7 +1,23 @@
+<% content_for :header do -%>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#commentform").validate();
+    });
+  </script>
+<% end %>
 <% content_for :main do -%>
   <div class="postnav">
-    <div class="alignleft"></div>
-    <div class="alignright">« <a href="http://www.emlog.net/demo/?post=47">EMLOG模板结构介绍</a>
+    <div class="alignleft">
+      <% previous_b = @blog.previous_b %>
+      <% unless previous_b.blank? %>
+        « <%= link_to previous_b.title,blog_path(previous_b) %>
+      <% end %>
+    </div>
+    <div class="alignright">
+      <% next_b = @blog.next_b %>
+      <% unless next_b.blank? %>
+        <%= link_to next_b.title,blog_path(next_b) %> »
+      <% end %>
     </div>
   </div>
   <div id="post-3" class="post">
@@ -13,7 +29,7 @@
         <%= @blog.title %>
       </h2>
       <p class="post-info">
-        post by <%= link_to blog.user.name,"/about" %> / <%= blog.created_at.to_s(:db) %> <%= week_en(blog.created_at.wday) %>
+        post by <%= link_to blog.user.name,"/me" %> / <%= blog.created_at.to_s(:db) %> <%= week_en(blog.created_at.wday) %>
       </p>
     </div>
 
@@ -21,7 +37,11 @@
       <p></p>
       <%= @blog.content %>
       <p class="postmetadata"></p>
-      <p class="postmetadata">标签:<%= link_to @blog.title,@blog %></p>
+      <p class="postmetadata">标签:
+        <% @blog.s_tags.each do |t| -%>
+          <%= link_to t,:action=>'search',:tag=>t %>
+        <% end -%>
+      </p>
     </div>
     <p class="postmetadata"></p>
   </div>
@@ -46,18 +66,18 @@
   <h3 id="respond">Leave a Reply</h3>
   <% form_for @comment,:url=>"/blogs/#{@blog.id}/comments",:html=>{:id=>'commentform'} do |f|-%>
     <p>
-      <%= f.text_field :user_name,:value=>nil,:tabindex=>1,:size=>22,:class=>"textbox" %>
+      <%= f.text_field :user_name,:value=>nil,:tabindex=>1,:size=>22,:class=>"textbox required" %>
       <label for="comment_user_name"><small>Name (required)</small></label>
     </p>
     <p>
-      <%= f.text_field :user_email,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox" %>
+      <%= f.text_field :user_email,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox email" %>
       <label for="comment_user_email"><small>Mail</small></label></p>
     <p>
-      <%= f.text_field :user_home,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox" %>
+      <%= f.text_field :user_home,:value=>'http://www.',:tabindex=>2,:size=>22,:class=>"textbox url" %>
       <label for="comment_user_home"><small>Website</small></label>
     </p>
     <p>
-      <%= f.text_area :content,:value=>nil,:tabindex=>4,:rows=>10 %>
+      <%= f.text_area :content,:value=>nil,:tabindex=>4,:rows=>10,:class=>'required' %>
     </p>
     <p>
       <%= f.submit 'Comment' %>

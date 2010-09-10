@@ -1,15 +1,14 @@
 class BlogsController < ApplicationController
   uses_tiny_mce(:options=>{
-    :theme => 'advanced',
-    :theme_advanced_toolbar_location => 'top',
-    :theme_advanced_buttons3_add=>'search,syntaxhl,rcode',
-    :verify_html => false,
-    :file_browser_callback => 'wfb'
+      :theme => 'advanced',
+      :theme_advanced_toolbar_location => 'top',
+      :theme_advanced_buttons3_add=>'search,syntaxhl,rcode',
+      :verify_html => false,
+      :file_browser_callback => 'wfb'
     })
   
-#  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
-  # GET /blogs
-  # GET /blogs.xml
+  #  before_filter :find_user,:only=>[:new,:create,:edit,:update,:destroy,:my]
+
   def index
     @blogs = Blog.public.paginate :page => params[:page]
 
@@ -19,8 +18,7 @@ class BlogsController < ApplicationController
     end
   end
 
-  # GET /blogs/1
-  # GET /blogs/1.xml
+
   def show
     @blog = Blog.find(params[:id])
     @blog.update_attribute('view', @blog.view+1) unless @blog.blank?
@@ -31,8 +29,6 @@ class BlogsController < ApplicationController
     end
   end
 
-  # GET /blogs/new
-  # GET /blogs/new.xml
   def new
     @blog = Blog.new
 
@@ -42,17 +38,13 @@ class BlogsController < ApplicationController
     end
   end
 
-  # GET /blogs/1/edit
   def edit
     @blog = Blog.find(params[:id])
   end
 
-  # POST /blogs
-  # POST /blogs.xml
   def create
     @blog = Blog.new(params[:blog])
     @blog.user_id = 1
-#    render :text=>params[:blog][:content]
     
     respond_to do |format|
       if @blog.save
@@ -66,8 +58,6 @@ class BlogsController < ApplicationController
     end
   end
 
-  # PUT /blogs/1
-  # PUT /blogs/1.xml
   def update
     @blog = Blog.find(params[:id])
     @blog.user_id = current_user.id
@@ -84,8 +74,6 @@ class BlogsController < ApplicationController
     end
   end
 
-  # DELETE /blogs/1
-  # DELETE /blogs/1.xml
   def destroy
     @blog = Blog.find(params[:id])
     @blog.destroy
@@ -97,9 +85,21 @@ class BlogsController < ApplicationController
   end
 
   def my
-    @blogs = current_user.blogs.available.paginate :page => params[:page]
-    
+    @blogs = current_user.blogs.available.paginate :page => params[:page]   
   end
+
+  def search
+    search_blogs
+  end
+
+#  def check_content
+##    v = ShieldWord.check_content(params[:comment][:content])
+#    v = '11'
+#    respond_to do |wants|
+#      wants.js { render :text => "#{v}" }
+#    end
+#
+#  end
 
   protected
 
@@ -107,6 +107,30 @@ class BlogsController < ApplicationController
     unless logged_in?
       redirect_to blogs_path
     end
+  end
+
+  def search_blogs
+    conds = []
+    conds_h = {}
+    unless params[:keyword].blank?
+      conds << "  title LIKE :keyword"
+      conds_h[:keyword] = "%#{params[:keyword]}%"
+    end
+   
+    unless params[:date].blank?
+      conds << "DATE_FORMAT(created_at,'%%Y-%%m') = '#{params[:date]}'"
+    end
+
+    unless params[:bc].blank?
+      conds << "  blog_category_id = :bc"
+      conds_h[:bc] = "#{params[:bc]}"
+    end
+    
+   unless params[:tag].blank?
+      conds << "tags LIKE :t"
+      conds_h[:t] = "%#{params[:tag]}%"
+    end
+    @blogs = Blog.public.paginate(:all,:conditions => [conds.join(' AND '), conds_h],:page => params[:page])
   end
 
 end
