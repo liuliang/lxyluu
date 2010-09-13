@@ -59,7 +59,7 @@
       </div>
       <div id="feedarea">
         <dl>
-          <dd><a href="http://www.emlog.net/demo/rss.php">RSS</a></dd>
+          <dd><a href="/blogs.rss">RSS</a></dd>
         </dl>
       </div>
 
@@ -103,7 +103,7 @@
               <h3><span>最新评论</span></h3>
               <ul id="newcomment">
                 <% Comment.new_comments.each do |comment| -%>
-                  <li><%= h comment.user_name %><br /><%= link_to comment.content,blog_path(comment.blog) %></li>
+                  <li><%= h comment.user_name %><br /><%= link_to comment.content,"/blogs/#{comment.blog_id}##{comment.id}" %></li>
                 <% end -%>
               </ul>
             </li>

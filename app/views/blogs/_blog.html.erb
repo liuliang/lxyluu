@@ -48,11 +48,15 @@
   <p class="comment"><b>评论：</b><a name="comment"></a></p>
   <% @blog.comments.each do |c| -%>
     <ol class="commentlist">
-      <a name="319"></a>
+      <a name="<%= c.id %>"></a>
       <li class="alt">
         <div class="cmtinfo"><em><%= @blog.created_at.to_s(:db) %></em>
           <small class="commentmetadata">
-            <a target="_blank" href="<%= c.user_home.blank? ? '#' : c.user_home %>"><%= c.user_name %></a>：
+            <% if c.user_home.blank? %>
+              <a target="_blank" href="<%= c.user_home %>"><%= c.user_name %></a>：
+            <% else %>
+              <%= c.user_name %>:
+            <% end %>
           </small>
         </div>
         <div class="comment">
@@ -73,7 +77,7 @@
       <%= f.text_field :user_email,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox email" %>
       <label for="comment_user_email"><small>Mail</small></label></p>
     <p>
-      <%= f.text_field :user_home,:value=>'http://www.',:tabindex=>2,:size=>22,:class=>"textbox url" %>
+      <%= f.text_field :user_home,:value=>nil,:tabindex=>2,:size=>22,:class=>"textbox url" %>
       <label for="comment_user_home"><small>Website</small></label>
     </p>
     <p>

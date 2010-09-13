@@ -10,7 +10,7 @@ class Comment < ActiveRecord::Base
   before_save :v_c #检查是否包含屏蔽字，并替换
 
   def v_c
-    unless comment.blank?
+    unless self.content.blank?
       self.content = ShieldWord.v_c(self.content)
     end
   end
