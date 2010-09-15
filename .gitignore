@@ -1,0 +1,7 @@
+log
+nbproject
+config/database.yml
+tmp
+db/schema.rb
+public/system
+public/uploads
