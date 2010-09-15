@@ -1,24 +1,30 @@
-<script type="text/javascript">
-  function wfb(field_name, url, type, win){
-    tinyMCE.activeEditor.windowManager.open({
-      file : '/images/new',  //上传窗口的路径
-      title : 'upload image',
-      width : 420,
-      height : 200,
-      resizable : "no",
-      inline : "yes",
-      close_previous : "no"
-    }, {
-      window : win,  //告诉它是被谁弹出来的
-      input : field_name  //这个是指生成的图片地址要往哪里填
-    });
-    return false;
-  }
-</script>
-<%= include_tiny_mce_if_needed %>
+<% if false %>
+  <script type="text/javascript">
+    function wfb(field_name, url, type, win){
+      tinyMCE.activeEditor.windowManager.open({
+        file : '/images/new',  //上传窗口的路径
+        title : 'upload image',
+        width : 420,
+        height : 200,
+        resizable : "no",
+        inline : "yes",
+        close_previous : "no"
+      }, {
+        window : win,  //告诉它是被谁弹出来的
+        input : field_name  //这个是指生成的图片地址要往哪里填
+      });
+      return false;
+    }
+  </script>
+
+  <%= include_tiny_mce_if_needed %>
+  <%= f.text_area :content, :class => "mceEditor" ,:style=>"width:100%;min-height:500px"%>
+<% end %>
+<%= javascript_include_tag :fckeditor %>
 <% form_for(@blog) do |f| -%>
   <%= f.text_field :title,:value=>nil,:class=>'textbox',:style=>"margin-left:150px"%>
-  <%= f.text_area :content, :class => "mceEditor" ,:style=>"width:100%;min-height:500px"%>
+  <%= fckeditor_textarea(:blog, :content, :toolbarSet => 'Easy', :width => '100%', :height => '500px') %>
+
   <strong>权限</strong>
   <%= '私有' %><%= f.check_box :is_private%><br/>
   <strong>分类</strong> <%= f.select :blog_category_id,BlogCategory.all.collect{|bc| [bc.name,bc.name]} %><br/>
