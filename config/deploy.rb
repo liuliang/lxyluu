@@ -22,7 +22,12 @@ task :chmod, :roles => :web do
   run "chmod -fR 755 #{deploy_to}/current/script/*"
 end
 
-after "deploy:symlink", :chmod
+  desc "symlink database yml file"
+  task :sym_db_yml, :role => :web do
+    run  "ln -nfs  #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+  end
+
+after "deploy:symlink", :chmod,:sym_db_yml
 
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
