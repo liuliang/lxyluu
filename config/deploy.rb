@@ -1,8 +1,8 @@
 
-set :application, "myblog"
+set :application, "web"
 set :repository,  "git@github.com:liuliang/lxyluu.git"
 set :use_sudo, false
-set :deploy_to, "/home/liuxiaoyan/back/#{application}"
+set :deploy_to, "/home/liuxiaoyan/#{application}"
 
 set :scm, :git
 set :user,'liuxiaoyan'
@@ -18,10 +18,16 @@ role :app, domain
 role :web, domain
 role :db,  domain, :primary => true
 
+task :chmod, :roles => :web do
+  run "chmod -fR 755 #{deploy_to}/current/script/*"
+end
+
+after "deploy:symlink", :chmod
+
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
   task :restart, :roles => :app, :except => { :no_release => true } do
-#    run "touch #{current_path}/tmp/restart.txt"
+    run "touch #{current_path}/tmp/restart.txt"
   end
 
   [:start, :stop].each do |t|
