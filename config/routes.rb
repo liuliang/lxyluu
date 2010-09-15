@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   
   
-  map.me '/me', :controller=>'blogs',:action=>'show',:id=>17
+  map.me '/me', :controller=>'blogs',:action=>'show',:id=>1
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
 #  map.check_content '/check_content',:controller=> 'blogs', :action=>'check_content'
