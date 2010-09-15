@@ -23,11 +23,13 @@ task :chmod, :roles => :web do
 end
 
   desc "symlink database yml file"
-  task :sym_db_yml, :role => :web do
+  task :sym_link, :role => :web do
     run  "ln -nfs  #{shared_path}/config/database.yml #{current_path}/config/database.yml"
+    run  "ln -nfs  #{shared_path}/uploads #{current_path}/public/uploads"
+    run  "ln -nfs  #{shared_path}/system #{current_path}/public/system"
   end
 
-after "deploy:symlink", :chmod,:sym_db_yml
+after "deploy:symlink", :chmod,:sym_link
 
 namespace :deploy do
   desc "Restarting mod_rails with restart.txt"
