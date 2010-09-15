@@ -11,7 +11,7 @@ FCKLang['EuImgDialogTitle']	= 'Insert Image' ;
 FCKLang['EuInsertImageLbl']	= 'Insert/Edit an image' ;
 FCKLang['EuInsertImage']	= 'Insert/Edit an image' ;
 
-FCKLang['EuImgSelectFileLbl']		= 'Select picture' ;
+FCKLang['EuImgSelectFileLbl']		= 'Select picture,do not upload the same day,the same' ;
 FCKLang['EuImgContinueBtn']		= 'Continue' ;
 FCKLang['EuDlgImgAlt']	= 'Short Description' ;
 

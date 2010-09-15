@@ -186,7 +186,7 @@ class FckeditorController < ActionController::Base
   # Returns the filesystem folder with the current folder
   #
   def current_directory_path
-    base_dir = "#{UPLOADED_ROOT}/#{params[:Type]}"
+    base_dir = "#{UPLOADED_ROOT}/#{params[:Type]}/#{today_path}"
     Dir.mkdir(base_dir,0775) unless File.exists?(base_dir)
     check_path("#{base_dir}#{params[:CurrentFolder]}")
   end
@@ -196,7 +196,7 @@ class FckeditorController < ActionController::Base
   #
   def upload_directory_path
     url_root = ActionController::Base.relative_url_root.to_s
-    uploaded = url_root + "#{UPLOAD_FOLDER}/#{params[:Type]}"
+    uploaded = url_root + "#{UPLOAD_FOLDER}/#{params[:Type]}/#{today_path}"
     "#{uploaded}#{params[:CurrentFolder]}"
   end
 
@@ -227,5 +227,9 @@ class FckeditorController < ActionController::Base
       throw Exception.new
     end
     path
+  end
+
+  def today_path
+    "#{Date.today.year}/#{Date.today.month}/#{Date.today.day}"
   end
 end
